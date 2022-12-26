@@ -25,64 +25,60 @@ outliers.winsorize <- function(data, threshold=0.05) {
 	return(data)
 }
 
-impute.mean <- function(data) {
-	#' Impute missing values with the mean of the column
-	return(apply(data, 2, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
-}
-impute.knn <- function(data) {
-
-}
-impute.mice <- function(data) {
-
-}
-
-prune.mcf <- function(data, cutoff = 0.95) {
-	#' Prune features with major class frequency > cutoff
-	MCF = mcf(data)
-	return(data[, MCF[MCF <= 0.95]])
-}
-prune.variance <- function(data, cutoff) {
-	#' Prune features with variance < cutoff
-	return(data[, apply(data, 2, var) >= cutoff])
-}
-prune.correlated <- function(data, threshold) {
-	#' Prune features that are highly correlated with each other
-	correlations = correlation(data, threshold)
-	return(data[, !colnames(data) %in% correlations[,1]])
-}
-
-save_plots <- function(data, folder, plot_function, plots_per_page = 5) {
-	#' Generate plots of each column
-	for (page in 1:(ncol(data) / plots_per_page)) {
-		png(paste(folder, "/page", page, ".png", sep=""))
-		par(mfrow=c(1,plots_per_page))
-		start = (page-1) * plots_per_page + 1
-		end = min(ncol(data), page * plots_per_page)
+save_plots <- function(data, width, height, folder, plot_function, plots_per_page = c(1,1), plot_count=NaN) {
+    #' Generate N plots
+    if (is.na(plot_count)) plot_count = ncol(data)
+    for (page in 1:(plot_count / sum(plots_per_page))) {
+        png(paste(folder, "/page", page, ".png", sep=""), width, height)
+        par(mfrow=plots_per_page)
+        start = (page-1) * sum(plots_per_page) + 1
+        end = min(plot_count, page * sum(plots_per_page))
 		for (col in start:end) {
-			plot_function(data[,col], colnames(data)[col])
+            plot_function(col)
 		}
 		dev.off()
 	}
 }
-save_boxplots <- function(data, folder, plots_per_page = 5) {
+save_boxplots <- function(data, width, height, folder="box", plots_per_page = c(1,5)) {
 	#' Generate boxplots of each column
+    colour <- function(col)
+        ifelse(typeof(col) == "double", "blue", "red")
 	save_plots(
 		data,
+        width,
+        height,
 		folder,
-		function(col, title)
-			boxplot(col, main = title, width=1, border=ifelse(typeof(col) == "double", "blue", "red")),
+        function(col)
+            boxplot(data[,col], main=colnames(data)[col], width=1, border=colour(col)),
 		plots_per_page
 	)
 }
-save_barplots <- function(data, folder, plots_per_page = 3) {
+save_barplots <- function(data, width, height, folder="bar", plots_per_page = c(1,5)) {
 	#' Generate barplots of each column
+    colour <- function(col)
+        ifelse(typeof(col) != "double", "blue", "red")
 	save_plots(
 		data,
+        width,
+        height,
 		folder,
-		function(col, title)
-			barplot(table(col), main=title, border=ifelse(typeof(col) != "double", "blue", "red")),
+        function(col)
+            barplot(table(data[,col]), main=colnames(data)[col], border=colour(col)),
 		plots_per_page
 	)
+}
+save_scatterplots <- function(data, width=10000, height=10000, folder="scatter", plots_per_page = c(5,5)) {
+    #' Generate scatterplots of each column, colour them by class
+    save_plots(
+        data,
+        width,
+        height,
+        folder,
+        function(col)
+            pairs(data, col=adjustcolor(c("red", "blue", alpha=0.5)[data$Class])),
+        plots_per_page=c(1,1),
+        plot_count=1
+    )
 }
 
 analyze <- function(data) {
