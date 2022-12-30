@@ -1,3 +1,6 @@
+library(MASS)
+library(naivebayes)
+
 classify.majority.train <- function(data) {
     #' Train a majority class classifier
     return(names(which.max(table(data$Class))))
@@ -16,68 +19,34 @@ classify.random.execute <- function(classifier, datum) {
     return(sample(2, 1))
 }
 
-classify.bayes.train <- function(data, discretize=FALSE) {
-    #' Train a naive bayes classifier
-    
-    # Discretize real-valued attributes.
-    if (discretize) {
-        for (col in 1:ncol(data)) {
-            if (typeof(data[,col]) == "double") {
-                data[,col] = discretize(data[,col], breaks=5)
-            }
-        }
-    }
+classify.lda.train <- function(data) {
+    #' Train a linear discriminant analysis classifier
+    return(lda(Class ~ ., data=data))
+}
+classify.lda.execute <- function(classifier, datum) {
+    #' Classify using linear discriminant analysis
+    return(predict(classifier, datum)$class)
+}
 
-    probs <- list()
-    for (col in 1:(ncol(data) - 1)) {
-        if (typeof(data[, col]) == "double") {
-            # The column hasn't been discretized; approximate with a gaussian.
-            probs[[names(data)[col]]] <- list(
-                mean = mean(data[, col], na.rm = TRUE),
-                sd = sd(data[, col], na.rm = TRUE)
-            )
-        } else {
-            # The column has been discretized, use regular bayes.
-            ret <- list()
-            for (class in names(table(data$Class))) {
-                ugodne <- data[which(data$Class == class), col]
-                ret[[class]] <- table(ugodne) / sum(data$Class == class)
-            }
-            probs[[names(data)[col]]] <- ret
-        }
-    }
-    probs[["Class"]] <- table(data$Class) / nrow(data)
-    return(probs)
+classify.bayes.train <- function(data) {
+    #' Train a naive bayes classifier
+    # # first convert all integer columns to factors
+    # for (i in 1:ncol(data)) {
+    #     if (typeof(data[,i]) == "integer") {
+    #         data[,i] = as.factor(data[,i])
+    #     }
+    # }
+    return(naive_bayes(Class ~ ., data=data, laplace=1))
 }
 classify.bayes.execute <- function(classifier, datum) {
     #' Classify using naive bayes
-	classes = names(classifier$Class)
-
-	probs = list()
-    for (class in classes) {
-        # Calculate the probability of the datum belonging to the class.
-        prob = classifier$Class[[class]]
-        for (col in colnames(datum)) {
-            if (all(c("mean", "sd") %in% names(classifier[[col]]))) {
-                # Real valued attribute; use gaussian.
-				multiplier = dnorm(datum[[col]], classifier[[col]]$mean, classifier[[col]]$sd)
-            } else {
-                # Discrete attribute.
-				multiplier = classifier[[col]][[class]][[as.character(datum[[col]])]]
-            }
-			if (length(multiplier) == 1 && !is.nan(multiplier))
-				prob = prob * multiplier
-        }
-		probs[[class]] <- prob
-    }
-	# Return the class with the highest probability.
-	return(names(which.max(probs)))
+    return(predict(classifier, datum))
 }
 
 
 # Combine classify.X.train and classify.X.execute into classify.X
 # classify.X(training_data) returns a function that can be used to classify.
-classifiers = c("majority", "random", "bayes")
+classifiers = c("majority", "random", "bayes", "lda")
 for (classifier in classifiers) {
 	train = match.fun(paste("classify.", classifier, ".train", sep=""))
 	execute = match.fun(paste("classify.", classifier, ".execute", sep=""))
