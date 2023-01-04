@@ -16,6 +16,10 @@ correlation <- function(data, threshold) {
     ))
     return(annotated)
 }
+dist <- function(datum, data) {
+    #' Calculate the distance from datum to each row in data
+    return(apply(data, 1, function(x) sqrt(sum((as.integer(datum) - as.integer(x))^2))))
+}
 
 transform.pca <- function(data) {
     #' Transform data using PCA
@@ -47,14 +51,19 @@ outliers.winsorize <- function(data, threshold=0.05) {
 
 impute.mean <- function(data) {
     #' Impute missing values with the mean of the column
-    d = apply(data, 2, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))
-    return(data.frame(d))
+    for (i in 1:ncol(data)) {
+        if (typeof(data[,i]) %in% c("double", "integer")) {
+            data[,i] <- ifelse(is.na(data[,i]),
+                mean(data[,i], na.rm=TRUE),
+                data[,i]
+            )
+        }
+    }
+    return(data.frame(data))
 }
-impute.knn <- function(data) {
-	
-}
-impute.mice <- function(data) {
-	print("Not implemented")
+impute.filter <- function(data) {
+    #' Remove rows with missing data
+    return(data[complete.cases(data),])
 }
 
 prune.mcf <- function(data, cutoff = 0.95) {
