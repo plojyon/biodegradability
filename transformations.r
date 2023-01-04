@@ -65,6 +65,27 @@ impute.filter <- function(data) {
     #' Remove rows with missing data
     return(data[complete.cases(data),])
 }
+impute.knn <- function(data, k=1) {
+	#' Impute using k nearest neighbours
+    to_impute = data[!complete.cases(data),]
+    for (row in rownames(to_impute)) {
+        incomplete_row = colnames(data[row,])[apply(data[row,], 2, anyNA)]
+        incomplete_filter = (names(data[row,]) %in% incomplete_row) # booleans
+        distances = dist(data[row,!incomplete_filter], data[complete.cases(data),!incomplete_filter])
+        k_nearest = data[complete.cases(data),][order(distances)[1:k],]
+        
+        # replace only na's
+        for (col in incomplete_row) {
+            if (typeof(data[,col]) %in% c("double", "integer")) {
+                data[row,col] <- ifelse(is.na(data[row,col]),
+                    mean(k_nearest[,col], na.rm=TRUE),
+                    data[row,col]
+                )
+            }
+        }
+    }
+    return(data.frame(data))
+}
 
 prune.mcf <- function(data, cutoff = 0.95) {
     #' Prune features with major class frequency > cutoff
@@ -75,7 +96,7 @@ prune.variance <- function(data, cutoff = 0.1) {
     #' Prune features with variance < cutoff
     return(data[, apply(data, 2, function(x) var(x, na.rm=TRUE)) >= cutoff])
 }
-prune.correlated <- function(data, threshold) {
+prune.correlated <- function(data, threshold=0.6) {
     #' Prune features that are highly correlated with each other
     correlations = correlation(data, threshold)
     return(data[, !colnames(data) %in% correlations[,1]])
