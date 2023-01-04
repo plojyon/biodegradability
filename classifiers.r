@@ -1,5 +1,6 @@
 library(MASS)
 library(naivebayes)
+library(randomForest)
 
 classify.majority.train <- function(data) {
     #' Train a majority class classifier
@@ -43,10 +44,19 @@ classify.bayes.execute <- function(classifier, datum) {
     return(predict(classifier, datum))
 }
 
+classify.random_forest.train <- function(data) {
+    #' Train a random forest classifier
+    return(randomForest(Class ~ ., data=data))
+}
+classify.random_forest.execute <- function(classifier, datum) {
+    #' Classify using random forest
+    return(predict(classifier, datum))
+}
+
 
 # Combine classify.X.train and classify.X.execute into classify.X
 # classify.X(training_data) returns a function that can be used to classify.
-classifiers = c("majority", "random", "bayes", "lda")
+classifiers = c("majority", "random", "bayes", "lda", "random_forest")
 for (classifier in classifiers) {
 	train = match.fun(paste("classify.", classifier, ".train", sep=""))
 	execute = match.fun(paste("classify.", classifier, ".execute", sep=""))
@@ -55,8 +65,14 @@ for (classifier in classifiers) {
 
 	fun = local(function(training_data) {
 		classifier = train(training_data)
+        columns = names(training_data)
+        columns = columns[columns != "Class"]
 		return(function(testing_datum) {
-			execute(classifier, testing_datum)
+            results = list()
+            for (i in rownames(testing_datum)) {
+                results[[i]] <- execute(classifier, testing_datum[i,columns])
+            }
+			return(results)
 		})
 	}, list2env(list(train=train, execute=execute)))
 	assign(name, fun)
