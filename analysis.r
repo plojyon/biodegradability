@@ -6,7 +6,7 @@ save_plots <- function(data, width, height, plot_function, plots_per_page = c(1,
     #' Generate N plots
     if (is.na(plot_count)) plot_count = ncol(data)
 	if (typeof(filename) == "character") filename = local(function(page) filename, list2env(list(filename=filename)))
-    for (page in 1:(plot_count / prod(plots_per_page))) {
+    for (page in 1:floor(plot_count / prod(plots_per_page))) {
 		name = as.character(filename(page))
         png(paste(name, ".png", sep=""), width, height)
         par(mfrow=plots_per_page)
