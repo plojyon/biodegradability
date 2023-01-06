@@ -1,4 +1,5 @@
 source("transformations.r")
+source("classifiers.r")
 
 colour <- function(datatype) ifelse(datatype == "double", "blue", "red")
 
@@ -56,6 +57,15 @@ save_scatterplots <- function(data, width=10000, height=10000, filename="scatter
     )
 }
 
+save_lda_scatter <- function(data, width=500, height=500, filename="scatterplot"){
+    data = impute.knn(data)
+    lda_classifier = classify.lda.train(data)
+    lda_data = predict(lda_classifier, data)
+
+    plot(lda_data$x[,1], lda_data$x[,2])
+    text(lda_data$x[,1], lda_data$x[,2], data$Class, cex = 0.7, pos = 4, col = "red")
+}
+
 analyze <- function(data) {
     #' Perform general data analysis
     print("Percentage of rows with missing features:")
@@ -108,3 +118,5 @@ save_boxplots(outliers.winsorize(df), filename="images/boxes_winsorized")
 save_barplots(outliers.winsorize(df), filename="images/histograms")
 # save_scatterplots(df, filename="images/scatters")
 # save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
+
+#save_lda_scatter(df, filename="images/lda_scatter")
