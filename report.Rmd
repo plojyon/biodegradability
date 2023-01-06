@@ -100,7 +100,7 @@ colour <- function(datatype) ifelse(datatype == "double", "blue", "red")
 save_plots <- function(data, width, height, plot_function, plots_per_page = c(1,1), plot_count=NaN, filename=function(page) page) {
     #' Generate N plots
     if (is.na(plot_count)) plot_count = ncol(data)
-	  if (typeof(filename) == "character") filename = local(function(page) filename, list2env(list(filename=filename)))
+    if (typeof(filename) == "character") filename = local(function(page) filename, list2env(list(filename=filename)))
     for (page in 1:floor(plot_count / prod(plots_per_page))) {
 		    name = as.character(filename(page))
         png(paste(name, ".png", sep=""), width, height)
@@ -158,11 +158,22 @@ save_scatterplots <- function(data, width=10000, height=10000, filename="scatter
 #save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
 ```
 
+The following plots were generated from the data (blue = continuous, red = categorical):
 ![Boxplots](images/boxes.png)
 ![Boxplots Winsorized](images/boxes_winsorized.png)
 ![Histograms](images/histograms.png)
 ![Scatterplots](images/scatters.png)
 ![Scatterplots PCA](images/scatters_pca.png)
+
+After analyzing the data, we found the following:
+* ~10% of rows have a missing value (all but one are missing precisely one value)
+* Most of the missing data appear in the same few columns.
+* There are 2 classes with prior probabilities of 2/3 and 1/3.
+* We counted unique values per column to determine which columns are categorical and which are continuous.
+* 7 attributes have a majority class frequency of 0.95 or higher. These are likely to be useless.
+* 4 pairs of attributes have a correlation of 0.90 or higher. These are likely to be redundant.
+* None of the continuous columns had a significantly low variance.
+* Several columns had a high percentage (up to 10%) of outliers.
 
 ## Preprocessing transformers
 
