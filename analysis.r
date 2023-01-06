@@ -1,5 +1,24 @@
 source("transformations.r")
 source("classifiers.r")
+library(e1071)
+
+k_fold_validate <- function(data, k, classifier, params = list()) {
+    #' Perform k-fold cross validation on a dataset
+    data = data[sample(nrow(data)),]
+    fold_size = round(nrow(data) / k)
+    fold_indices = seq(1, nrow(data), fold_size)
+    fold_indices = c(fold_indices, nrow(data)+1)
+    fold_accuracies = rep(1, k)
+    for (fold in 1:k) {
+        test_indices = seq(fold_indices[fold], fold_indices[fold+1]-1)
+        fold_data = data[-test_indices,]
+        fold_test = data[test_indices,]
+        fold_classifier = classifier(fold_data, params)
+        correct = as.integer(fold_classifier(fold_test)) == fold_test$Class
+        fold_accuracies[fold] = sum(correct) / nrow(fold_test)
+    }
+    return(mean(fold_accuracies))
+}
 
 colour <- function(datatype) ifelse(datatype == "double", "blue", "red")
 
@@ -66,6 +85,25 @@ save_lda_scatter <- function(data, width=500, height=500, filename="scatterplot"
     text(lda_data$x[,1], lda_data$x[,2], data$Class, cex = 0.7, pos = 4, col = "red")
 }
 
+plot_gamma_svm <- function(data){
+    data$Class = as.factor(data$Class)
+    preprossess = compose(impute.knn, prune.variance)
+    datalda = preprossess(data)
+    lda_classifier = classify.lda.train(datalda)
+    data[,ncol(data) + 1] = predict(lda_classifier, datalda)$x[,1]
+    testing_data[,ncol(testing_data) + 1] = predict(lda_classifier, testing_data)$x[,1]
+
+    data = preprossess(data)
+    gamma = seq(0.001, 1, 0.01)
+    y = rep(0, length(gamma))
+    for (i in 1:length(gamma)){
+        y[i] = mean(k_fold_validate(data, 5, classify.svm, list(gamma=gamma[i])))
+        print(c(gamma[i], y[i]))
+    }
+    x11()
+    plot(gamma, y, type="l", xlab="gamma", ylab="accuracy")
+}
+
 analyze <- function(data) {
     #' Perform general data analysis
     print("Percentage of rows with missing features:")
@@ -113,10 +151,12 @@ analyze <- function(data) {
 df <- read.csv("train.csv")
 
 # analyze(df)
-save_boxplots(df, filename="images/boxes")
-save_boxplots(outliers.winsorize(df), filename="images/boxes_winsorized")
-save_barplots(outliers.winsorize(df), filename="images/histograms")
+# save_boxplots(df, filename="images/boxes")
+# save_boxplots(outliers.winsorize(df), filename="images/boxes_winsorized")
+# save_barplots(outliers.winsorize(df), filename="images/histograms")
 # save_scatterplots(df, filename="images/scatters")
 # save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
 
 #save_lda_scatter(df, filename="images/lda_scatter")
+
+plot_gamma_svm(df)
