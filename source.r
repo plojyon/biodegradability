@@ -8,6 +8,8 @@ library(pROC)
 source("transformations.r")
 source("classifiers.r")
 
+options(width=120)
+
 if("print" %in% ls()){
     rm(print)
 }
@@ -37,22 +39,26 @@ metrics <- function(data, results) {
     ))
 }
 
-k_fold_validate <- function(data, k, classifier, metric) {
+k_fold_validate <- function(data, k, classifier) {
     #' Perform k-fold cross validation on a dataset
-    # shuffle the data
+    #' @param data The data to validate
+    #' @param k The number of folds
+    #' @param classifier A function that takes a dataset and returns a classifier
+    #' @param metric The metric to use for validation is as_table is false
+
     data = data[sample(nrow(data)),]
     fold_size = round(nrow(data) / k)
     fold_indices = seq(1, nrow(data), fold_size)
     fold_indices = c(fold_indices, nrow(data)+1)
-    fold_accuracies = rep(1, k)
+    fold_accuracies = array(0, c(k, 5))
     for (fold in 1:k) {
         test_indices = seq(fold_indices[fold], fold_indices[fold+1]-1)
         fold_data = data[-test_indices,]
         fold_test = data[test_indices,]
         fold_classifier = classifier(fold_data)
-        fold_accuracies[fold] = metrics(fold_test, fold_classifier(fold_test))[[metric]]
+        fold_accuracies[fold,] = as.numeric(metrics(fold_test, fold_classifier(fold_test)))
     }
-    return(mean(fold_accuracies))
+    return(fold_accuracies)
 }
 
 
@@ -90,30 +96,34 @@ clacifiers = list(
     "bayes"=get_classifier("bayes"),
     "lda"=get_classifier("lda"),
     "random_forest"=get_classifier("random_forest"),
-    "svm"=get_classifier("svm", list(gamma=0.3))
+    "svm"=get_classifier("svm", list(gamma=0.1))
 )
 
+
+
 # result matrix with names columns
-results = matrix(0, nrow=length(clacifiers), ncol=length(preprossesses))
-rownames(results) <- names(clacifiers)
-colnames(results) <- names(preprossesses)
+results = array(0, 
+    c(length(clacifiers),length(preprossesses), 5),
+    dimnames=list(
+        names(clacifiers),
+        names(preprossesses),
+        c("Accuracy","F1","Precision","Recall","AUC")
+    )
+)
 
-for (metric in c("Accuracy", "F1", "Precision", "Recall", "AUC")) {
-    i=1
-    for (classifier in clacifiers) {
-        j=1
-        for (preprossess in preprossesses) {
-            print(paste(metric, names(clacifiers)[i], names(preprossesses)[j], sep=" / "))
-            results[i,j] = k_fold_validate(preprossess(df), 5, classifier, metric)
-            j = j + 1
-        }
-        i = i + 1
+
+i=1
+for (classifier in clacifiers) {
+    j=1
+    for (preprossess in preprossesses) {
+        print(paste(names(clacifiers)[i], names(preprossesses)[j], sep=" / "))
+        results[i,j,] = colMeans(k_fold_validate(preprossess(df), 5, classifier))
+        j = j + 1
     }
-
-    print(results)
+    i = i + 1
 }
 
-
+print(results)
 
 # run on best classifier only (borken rn)
 # results = c()
