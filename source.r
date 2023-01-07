@@ -3,6 +3,7 @@ library(PerformanceAnalytics)
 library(arules)
 library(purrr)
 library(pryr)
+library(pROC)
 
 source("transformations.r")
 source("classifiers.r")
@@ -12,7 +13,31 @@ if("print" %in% ls()){
 }
 pprint <- function(...){ print(paste(...)) }
 
-k_fold_validate <- function(data, k, classifier) {
+
+metrics <- function(data, results) {
+    contingency_table = table(factor(as.integer(results), c(1, 2)), factor(data$Class, c(1, 2)))
+    
+    tp = contingency_table[1,1] # true positive
+    fp = contingency_table[1,2] # false positive
+    fn = contingency_table[2,1] # false negative
+    tn = contingency_table[2,2] # true negative
+    p = tp + fn # positive
+    n = tn + fp # negative
+    pp = tp + fp # predicted positive
+    pn = tn + fn # predicted negative
+
+    shita = as.vector(data$Class, mode="numeric")
+    shitb = as.vector(results, mode="numeric")
+    return(list(
+        Accuracy=((tp+tn)/(tp+tn+fp+fn)),
+        F1=(2*tp/(2*tp + fp + fn)),
+        Precision=(tp/pp),
+        Recall=(tp/p),
+        AUC=(roc(shita, shitb, quiet=TRUE)$auc)
+    ))
+}
+
+k_fold_validate <- function(data, k, classifier, metric) {
     #' Perform k-fold cross validation on a dataset
     # shuffle the data
     data = data[sample(nrow(data)),]
@@ -25,8 +50,7 @@ k_fold_validate <- function(data, k, classifier) {
         fold_data = data[-test_indices,]
         fold_test = data[test_indices,]
         fold_classifier = classifier(fold_data)
-        correct = as.integer(fold_classifier(fold_test)) == fold_test$Class
-        fold_accuracies[fold] = sum(correct) / nrow(fold_test)
+        fold_accuracies[fold] = metrics(fold_test, fold_classifier(fold_test))[[metric]]
     }
     return(mean(fold_accuracies))
 }
@@ -37,8 +61,8 @@ testing_data <- read.csv("test.csv")
 df$Class = as.factor(df$Class)
 testing_data$Class = as.factor(testing_data$Class)
 
-preprossesses = c(
-    function(data) {
+preprossesses = list(
+    "LDA"=function(data) {
         preprossess = compose(impute.knn, prune.variance)
 
         datalda = preprossess(data)
@@ -48,59 +72,55 @@ preprossesses = c(
 
         return(preprossess(data))
     },
-    function(data) {
+    "PCA"=function(data) {
         preprossess = compose(impute.knn, prune.variance)
         data[,(ncol(data) + 1):(ncol(data) + 3)] = transform.pca(preprossess(data))$x[,1:3]
         return(preprossess(data))
     },
-    compose(impute.knn, prune.variance),
-    compose(outliers.winsorize, prune.mcf, prune.variance, impute.knn),
-    compose(impute.knn, outliers.winsorize, prune.mcf, prune.variance),
-    compose(impute.knn, prune.mcf, prune.variance, outliers.winsorize),
-    compose(impute.knn, prune.variance, outliers.winsorize)
+    "knn+var"=compose(impute.knn, prune.variance),
+    "prep1"=compose(outliers.winsorize, prune.mcf, prune.variance, impute.knn),
+    "prep2"=compose(impute.knn, outliers.winsorize, prune.mcf, prune.variance),
+    "prep3"=compose(impute.knn, prune.mcf, prune.variance, outliers.winsorize),
+    "prep4"=compose(impute.knn, prune.variance, outliers.winsorize)
+)
+
+clacifiers = list(
+    "majority"=get_classifier("majority"),
+    "random"=get_classifier("random"),
+    "bayes"=get_classifier("bayes"),
+    "lda"=get_classifier("lda"),
+    "random_forest"=get_classifier("random_forest"),
+    "svm"=get_classifier("svm", list(gamma=0.3))
 )
 
 # result matrix with names columns
-results = matrix(0, nrow=length(classifiers), ncol=length(preprossesses))
-rownames(results) = classifiers
+results = matrix(0, nrow=length(clacifiers), ncol=length(preprossesses))
+rownames(results) <- names(clacifiers)
+colnames(results) <- names(preprossesses)
 
-i=1
-for (classifier in classifiers) {
-    j=1
-    for (preprossess in preprossesses){
-        results[i,j] = k_fold_validate(preprossess(df), 5, get_classifier(classifier))
-        j = j + 1
+for (metric in c("Accuracy", "F1", "Precision", "Recall", "AUC")) {
+    i=1
+    for (classifier in clacifiers) {
+        j=1
+        for (preprossess in preprossesses) {
+            print(paste(metric, names(clacifiers)[i], names(preprossesses)[j], sep=" / "))
+            results[i,j] = k_fold_validate(preprossess(df), 5, classifier, metric)
+            j = j + 1
+        }
+        i = i + 1
     }
-    print(i)
-    i = i + 1
+
+    print(results)
 }
 
-print(results)
-# add colnames
-colnames(results) = c(
-    "lda column",
-    "pca column",
-    "knn+variance",
-    "preprocess 1",
-    "preprocess 2",
-    "preprocess 3",
-    "preprocess 4"
-    )
-print(results)
-#k_fold_validate(preprossess(df), 5, classify.svm)
 
 
-preprossess = compose(impute.knn, prune.variance)
-datalda = preprossess(df)
-lda_classifier = classify.lda.train(datalda)
-df[,ncol(df) + 1] = predict(lda_classifier, datalda)$x[,1]
-testing_data[,ncol(testing_data) + 1] = predict(lda_classifier, testing_data)$x[,1]
-classifier = classify.svm(preprossess(df))
-results = c()
-for (row in rownames(testing_data)) {
-    test = testing_data[row, names(testing_data) != "Class"]
-    results = c(results, tryCatch(as.integer(classifier(test)), error=function(e) print(e)))
-}
-contingency_table = table(results, testing_data$Class)
-print(contingency_table)
-print(sum(diag(contingency_table))/sum(contingency_table))
+# run on best classifier only (borken rn)
+# results = c()
+# for (row in rownames(testing_data)) {
+#     test = testing_data[row, names(testing_data) != "Class"]
+#     results = c(results, tryCatch(as.integer(classifier(test)), error=function(e) print(e)))
+# }
+
+# contingency_table = table(results, testing_data$Class)
+# print(contingency_table)

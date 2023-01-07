@@ -73,7 +73,7 @@ for (classifier in classifiers) {
 
 	name = paste("classify.", classifier, sep="")
 
-	fun = local(function(training_data, parameters=list()) {
+	fun = local(function(training_data, parameters) {
 		classifier = train(training_data, parameters)
         columns = names(training_data)
         columns = columns[columns != "Class"]
@@ -88,6 +88,9 @@ for (classifier in classifiers) {
 	assign(name, fun)
 }
 
-get_classifier = function(name) {
-    return(match.fun(paste("classify.", name, sep="")))
+get_classifier = function(name, parameters=list()) {
+    classifier = match.fun(paste("classify.", name, sep=""))
+    return(local(function(training_data) {
+        return(classifier(training_data, parameters))
+    }, list2env(list(classifier=classifier, parameters=parameters))))
 }
