@@ -157,6 +157,6 @@ df <- read.csv("train.csv")
 # save_scatterplots(df, filename="images/scatters")
 # save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
 
-#save_lda_scatter(df, filename="images/lda_scatter")
+save_lda_scatter(df, filename="images/lda_scatter")
 
-plot_gamma_svm(df)
+# plot_gamma_svm(df)

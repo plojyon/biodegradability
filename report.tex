@@ -1,0 +1,899 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Smart Universal Sustainability System Yielding Biodegradability Analysis of Known Agents},
+  pdfauthor={Drusany J, Ploj Y},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Smart Universal Sustainability System Yielding Biodegradability
+Analysis of Known Agents}
+\author{Drusany J, Ploj Y}
+\date{2023-01-04}
+
+\begin{document}
+\maketitle
+
+\hypertarget{exploration}{%
+\subsection{Exploration}\label{exploration}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"train.csv"}\NormalTok{)}
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ data}
+\NormalTok{testing\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"test.csv"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      V1     V2 V3 V4 V5 V6 V7   V8 V9 V10 V11    V12   V13   V14   V15 V16
+## 3 3.932 3.2512  0  0  0  0  0 26.7  2   4   0  0.000 3.279 2.585 9.110   0
+## 5 4.236 3.3944  0  0  0  0  0 29.4  2   4   0 -0.271 3.449 2.753 9.528   2
+## 6 4.236 3.4286  0  0  0  0  0 28.6  2   4   0 -0.275 3.313 2.522 9.383   1
+## 7 5.000 5.0476  1  0  0  0  0 11.1  0   3   0  0.000 2.872 0.722 9.657   0
+## 8 4.525 3.8301  0  0  0  0  0 31.6  3   2   0 -0.039 3.418 2.468 9.786   5
+## 9 4.596 3.0777  0  0  0  0  2 44.4  2   0   0  0.000 2.970 0.875 9.540   0
+##     V17   V18 V19 V20 V21   V22 V23 V24 V25 V26   V27    V28 V29    V30   V31
+## 3 1.009 1.152   0   0   0 1.092   0   0   0   0 1.942 -0.008   0  0.000 4.891
+## 5 1.004 1.147   0   0   0 1.137   0   0   0   0 1.985 -0.002   0 10.348 5.588
+## 6 1.014 1.149   0   0   0 1.119   0   0   0   0 1.980 -0.008   0 10.276 4.746
+## 7 1.092 1.153   0   0   0 1.125   0   0   0   0 2.000  0.446   0 18.375 0.800
+## 8 0.980 1.142   0   0   0 1.179   0   0   0   0 2.119 -0.002   0 11.115 3.889
+## 9 0.968 1.115   0   0   0 1.328   1   0   0   0 2.175  0.041   0  0.000 1.069
+##   V32 V33 V34 V35   V36   V37 V38   V39 V40 V41 Class
+## 3   0   0   0   1 3.076 2.417   0 7.601   0   0     2
+## 5   0   0   0   0 3.351 2.405   0 8.003   0   0     2
+## 6   0   0   0   0 3.351 2.556   0 7.904   0   0     2
+## 7   0   0   0   1 4.712 4.583   0 9.303   0   0     2
+## 8   0   0   0   0 3.379 2.143   0 7.950   0   0     2
+## 9   0   0   0   0 3.626 1.917   0 7.939   0   0     2
+\end{verbatim}
+
+We prepared some functions to help us with the analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mcf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\#\textquotesingle{} Return the major class frequency per each column}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(data, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{max}\NormalTok{(}\FunctionTok{table}\NormalTok{(x)) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(}\FunctionTok{table}\NormalTok{(x))))}
+\NormalTok{\}}
+\NormalTok{correlation }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, threshold) \{}
+    \CommentTok{\#\textquotesingle{} Return pairs of features with correlations above a threshold}
+\NormalTok{    mat }\OtherTok{=} \FunctionTok{cor}\NormalTok{(}\FunctionTok{na.omit}\NormalTok{(data[, }\SpecialCharTok{{-}}\FunctionTok{ncol}\NormalTok{(data)]))}
+\NormalTok{    mat[}\FunctionTok{lower.tri}\NormalTok{(mat, }\AttributeTok{diag =} \ConstantTok{TRUE}\NormalTok{)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{    correlations }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(}\FunctionTok{abs}\NormalTok{(mat) }\SpecialCharTok{\textgreater{}}\NormalTok{ threshold, }\AttributeTok{arr.ind =} \ConstantTok{TRUE}\NormalTok{)}
+    \FunctionTok{rownames}\NormalTok{(correlations) }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+    \FunctionTok{colnames}\NormalTok{(correlations) }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{    annotated }\OtherTok{=} \FunctionTok{t}\NormalTok{(}\FunctionTok{apply}\NormalTok{(}
+\NormalTok{        correlations,}
+        \DecValTok{1}\NormalTok{,}
+        \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{c}\NormalTok{(x[}\DecValTok{1}\NormalTok{], x[}\DecValTok{2}\NormalTok{], mat[x[}\DecValTok{1}\NormalTok{], x[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{    ))}
+    \FunctionTok{return}\NormalTok{(annotated)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{general-data-analysis}{%
+\subsubsection{General data analysis}\label{general-data-analysis}}
+
+Percentage of rows with missing features:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{apply}\NormalTok{(data, }\DecValTok{1}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{any}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))) }\SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.09574468
+\end{verbatim}
+
+Number of missing features per row:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{table}\NormalTok{(}\FunctionTok{apply}\NormalTok{(data, }\DecValTok{1}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   0   1   2 
+## 765  80   1
+\end{verbatim}
+
+Total missing features by column:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{missing\_values }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(data, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))}
+\FunctionTok{print}\NormalTok{(missing\_values[missing\_values }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  V4 V22 V27 V29 V37 
+##  25  16   8   8  25
+\end{verbatim}
+
+Class counts:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{groups }\OtherTok{=} \FunctionTok{split}\NormalTok{(data, data}\SpecialCharTok{$}\NormalTok{Class)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(groups, nrow))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   1   2 
+## 564 282
+\end{verbatim}
+
+Number of unique values per column:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(data, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(x))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    V1    V2    V3    V4    V5    V6    V7    V8    V9   V10   V11   V12   V13 
+##   379   823    11     4    16    10    14   172    15    11    21   307   638 
+##   V14   V15   V16   V17   V18   V19   V20   V21   V22   V23   V24   V25   V26 
+##   321   436    24   158   115     2     4     3   322    13     2     2     3 
+##   V27   V28   V29   V30   V31   V32   V33   V34   V35   V36   V37   V38   V39 
+##   291   174     3   372   468     8    11    16     8   603   536     8   711 
+##   V40   V41 Class 
+##     5    16     2
+\end{verbatim}
+
+Major class frequency per column:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MCF }\OtherTok{=} \FunctionTok{mcf}\NormalTok{(data)}
+\FunctionTok{print}\NormalTok{(MCF)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          V1          V2          V3          V4          V5          V6 
+## 0.024822695 0.002364066 0.680851064 0.974421437 0.696217494 0.862884161 
+##          V7          V8          V9         V10         V11         V12 
+## 0.479905437 0.065011820 0.438534279 0.304964539 0.659574468 0.622931442 
+##         V13         V14         V15         V16         V17         V18 
+## 0.009456265 0.053191489 0.024822695 0.360520095 0.042553191 0.030732861 
+##         V19         V20         V21         V22         V23         V24 
+## 0.995271868 0.938534279 0.981087470 0.010843373 0.413711584 0.962174941 
+##         V25         V26         V27         V28         V29         V30 
+## 0.843971631 0.976359338 0.042959427 0.302600473 0.974940334 0.542553191 
+##         V31         V32         V33         V34         V35         V36 
+## 0.021276596 0.937352246 0.609929078 0.630023641 0.498817967 0.005910165 
+##         V37         V38         V39         V40         V41       Class 
+## 0.010962241 0.608747045 0.004728132 0.966903073 0.777777778 0.666666667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(MCF[MCF }\SpecialCharTok{\textgreater{}} \FloatTok{0.95}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        V4       V19       V21       V24       V26       V29       V40 
+## 0.9744214 0.9952719 0.9810875 0.9621749 0.9763593 0.9749403 0.9669031
+\end{verbatim}
+
+Correlation between features:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{correlation}\NormalTok{(data, }\FloatTok{0.90}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]      [,3]
+## [1,]    1   15 0.9100482
+## [2,]    1   27 0.9218017
+## [3,]   15   27 0.9222515
+## [4,]   36   39 0.9186995
+\end{verbatim}
+
+Variance of features:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{apply}\NormalTok{(data, }\DecValTok{2}\NormalTok{, var))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           V1           V2           V3           V4           V5           V6 
+## 2.830144e-01 6.625676e-01 2.263656e+00 3.931553e-02 5.373499e+00 1.093162e+00
+##           V7           V8           V9          V10          V11          V12
+## 4.929383e+00 8.154105e+01 4.074072e+00 3.146564e+00 1.006504e+01 5.754003e-01
+##          V13          V14          V15          V16          V17          V18
+## 3.318507e-01 6.031522e-01 8.212696e-01 2.101845e+01 2.009771e-03 8.224612e-04
+##          V19          V20          V21          V22          V23          V24 
+## 4.711346e-03 9.065285e-02 3.606950e-02 8.856541e-03 2.802252e+01 3.643739e-02
+##          V25          V26          V27          V28          V29          V30
+## 1.318394e-01 2.660204e-02 4.908201e-02 2.287145e-02 2.446087e-02 1.402481e+02
+##          V31          V32          V33          V34          V35          V36
+## 4.267224e+00 4.506735e-01 2.329056e+00 5.056578e+00 1.535451e+00 9.853253e-01
+##          V37          V38          V39          V40          V41        Class
+## 3.906513e-01 1.196033e+00 1.497441e+00 1.172129e-01 4.602722e+00 2.224852e-01
+\end{verbatim}
+
+Outliers per column:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (col }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(data)) \{}
+\NormalTok{    s }\OtherTok{=} \FunctionTok{colnames}\NormalTok{(data)[col]}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{typeof}\NormalTok{(data[,col]) }\SpecialCharTok{!=} \StringTok{"double"}\NormalTok{)}
+\NormalTok{        num }\OtherTok{=} \DecValTok{0}
+    \ControlFlowTok{else} 
+\NormalTok{        num }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}
+\NormalTok{            data[,col] }\SpecialCharTok{\textless{}} \FunctionTok{quantile}\NormalTok{(data[,col], }\FloatTok{0.05}\NormalTok{, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{|}
+\NormalTok{            data[,col] }\SpecialCharTok{\textgreater{}} \FunctionTok{quantile}\NormalTok{(data[,col], }\FloatTok{0.95}\NormalTok{, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        ) }\SpecialCharTok{/} \FunctionTok{length}\NormalTok{(data[,col])}
+    \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(s, num, }\AttributeTok{sep=}\StringTok{": "}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "V1: 0.099290780141844"
+## [1] "V2: 0.101654846335697"
+## [1] "V3: 0"
+## [1] "V4: 0"
+## [1] "V5: 0"
+## [1] "V6: 0"
+## [1] "V7: 0"
+## [1] "V8: 0.0921985815602837"
+## [1] "V9: 0"
+## [1] "V10: 0"
+## [1] "V11: 0"
+## [1] "V12: 0.101654846335697"
+## [1] "V13: 0.101654846335697"
+## [1] "V14: 0.049645390070922"
+## [1] "V15: 0.100472813238771"
+## [1] "V16: 0"
+## [1] "V17: 0.100472813238771"
+## [1] "V18: 0.0969267139479905"
+## [1] "V19: 0"
+## [1] "V20: 0"
+## [1] "V21: 0"
+## [1] "V22: NA"
+## [1] "V23: 0"
+## [1] "V24: 0"
+## [1] "V25: 0"
+## [1] "V26: 0"
+## [1] "V27: NA"
+## [1] "V28: 0.101654846335697"
+## [1] "V29: 0"
+## [1] "V30: 0.0508274231678487"
+## [1] "V31: 0.0874704491725768"
+## [1] "V32: 0"
+## [1] "V33: 0"
+## [1] "V34: 0"
+## [1] "V35: 0"
+## [1] "V36: 0.101654846335697"
+## [1] "V37: NA"
+## [1] "V38: 0"
+## [1] "V39: 0.101654846335697"
+## [1] "V40: 0"
+## [1] "V41: 0"
+## [1] "Class: 0"
+\end{verbatim}
+
+\hypertarget{visualizations}{%
+\subsubsection{Visualizations}\label{visualizations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{colour }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(datatype) }\FunctionTok{ifelse}\NormalTok{(datatype }\SpecialCharTok{==} \StringTok{"double"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{)}
+
+\NormalTok{save\_plots }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, width, height, plot\_function, }\AttributeTok{plots\_per\_page =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+\AttributeTok{    plot\_count=}\ConstantTok{NaN}\NormalTok{, }\AttributeTok{filename=}\ControlFlowTok{function}\NormalTok{(page) page) \{}
+    \CommentTok{\#\textquotesingle{} Generate N plots}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(plot\_count)) plot\_count }\OtherTok{=} \FunctionTok{ncol}\NormalTok{(data)}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{typeof}\NormalTok{(filename) }\SpecialCharTok{==} \StringTok{"character"}\NormalTok{)}
+    \NormalTok{    filename }\OtherTok{=} \FunctionTok{local}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(page) filename, }\FunctionTok{list2env}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{filename=}\NormalTok{filename)))}
+    \ControlFlowTok{for}\NormalTok{ (page }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{floor}\NormalTok{(plot\_count }\SpecialCharTok{/} \FunctionTok{prod}\NormalTok{(plots\_per\_page))) \{}
+\NormalTok{            name }\OtherTok{=} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{filename}\NormalTok{(page))}
+        \FunctionTok{png}\NormalTok{(}\FunctionTok{paste}\NormalTok{(name, }\StringTok{".png"}\NormalTok{, }\AttributeTok{sep=}\StringTok{""}\NormalTok{), width, height)}
+        \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\NormalTok{plots\_per\_page)}
+\NormalTok{        start }\OtherTok{=}\NormalTok{ (page}\DecValTok{{-}1}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{prod}\NormalTok{(plots\_per\_page) }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{        end }\OtherTok{=} \FunctionTok{min}\NormalTok{(plot\_count, page }\SpecialCharTok{*} \FunctionTok{prod}\NormalTok{(plots\_per\_page))}
+        \ControlFlowTok{for}\NormalTok{ (col }\ControlFlowTok{in}\NormalTok{ start}\SpecialCharTok{:}\NormalTok{end) \{}
+            \FunctionTok{plot\_function}\NormalTok{(col)}
+\NormalTok{        \}}
+        \FunctionTok{dev.off}\NormalTok{()}
+\NormalTok{    \}}
+\NormalTok{\}}
+\NormalTok{save\_boxplots }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{width=}\DecValTok{1000}\NormalTok{, }\AttributeTok{height=}\DecValTok{1500}\NormalTok{, }\AttributeTok{filename=}\StringTok{"boxplot"}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Generate boxplots of each column}
+    \FunctionTok{save\_plots}\NormalTok{(}
+        \AttributeTok{data=}\NormalTok{data,}
+        \AttributeTok{width=}\NormalTok{width,}
+        \AttributeTok{height=}\NormalTok{height,}
+        \AttributeTok{plot\_function=}\ControlFlowTok{function}\NormalTok{(col)}
+            \FunctionTok{boxplot}\NormalTok{(data[,}\FunctionTok{colnames}\NormalTok{(data)[col]], }\AttributeTok{width=}\DecValTok{1}\NormalTok{, }\AttributeTok{border=}\FunctionTok{colour}\NormalTok{(}\FunctionTok{typeof}\NormalTok{(data[,col]))),}
+        \AttributeTok{plots\_per\_page=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{11}\NormalTok{),}
+        \AttributeTok{filename=}\NormalTok{filename}
+\NormalTok{    )}
+\NormalTok{\}}
+\NormalTok{save\_barplots }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{width=}\DecValTok{1000}\NormalTok{, }\AttributeTok{height=}\DecValTok{2000}\NormalTok{, }\AttributeTok{filename=}\StringTok{"barplot"}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Generate barplots of each column}
+    \FunctionTok{save\_plots}\NormalTok{(}
+        \AttributeTok{data=}\NormalTok{data,}
+        \AttributeTok{width=}\NormalTok{width,}
+        \AttributeTok{height=}\NormalTok{height,}
+        \AttributeTok{plot\_function=}\ControlFlowTok{function}\NormalTok{(col)}
+            \FunctionTok{barplot}\NormalTok{(}\FunctionTok{table}\NormalTok{(data[,col]), }\AttributeTok{main=}\FunctionTok{colnames}\NormalTok{(data)[col], }\AttributeTok{border=}\FunctionTok{colour}\NormalTok{(}\FunctionTok{typeof}\NormalTok{(data[,col]))),}
+        \AttributeTok{plots\_per\_page=}\FunctionTok{c}\NormalTok{(}\DecValTok{11}\NormalTok{,}\DecValTok{4}\NormalTok{),}
+        \AttributeTok{filename=}\NormalTok{filename}
+\NormalTok{    )}
+\NormalTok{\}}
+\NormalTok{save\_scatterplots }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{width=}\DecValTok{10000}\NormalTok{, }\AttributeTok{height=}\DecValTok{10000}\NormalTok{, }\AttributeTok{filename=}\StringTok{"scatterplot"}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Generate scatterplots of each column, colour them by class}
+    \FunctionTok{save\_plots}\NormalTok{(}
+        \AttributeTok{data=}\NormalTok{data,}
+        \AttributeTok{width=}\NormalTok{width,}
+        \AttributeTok{height=}\NormalTok{height,}
+        \AttributeTok{plot\_function=}\ControlFlowTok{function}\NormalTok{(col)}
+            \FunctionTok{pairs}\NormalTok{(data, }\AttributeTok{col=}\FunctionTok{adjustcolor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.5}\NormalTok{)[data}\SpecialCharTok{$}\NormalTok{Class])),}
+        \AttributeTok{plots\_per\_page=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+        \AttributeTok{plot\_count=}\DecValTok{1}\NormalTok{,}
+        \AttributeTok{filename=}\NormalTok{filename}
+\NormalTok{    )}
+\NormalTok{\}}
+
+\NormalTok{save\_boxplots(df, filename="images/boxes")}
+\NormalTok{save\_boxplots(outliers.winsorize(df), filename="images/boxes\_winsorized")}
+\NormalTok{save\_barplots(outliers.winsorize(df), filename="images/histograms")}
+\NormalTok{save\_scatterplots(df, filename="images/scatters")}
+\NormalTok{save\_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters\_pca")}
+\end{Highlighting}
+\end{Shaded}
+
+The following plots were generated from the data (blue = continuous, red
+= categorical):
+
+Raw attributes box plots\\
+\includegraphics[width=0.7\columnwidth]{images/boxes.png}
+\pagebreak \\
+Winsorized attributes\\
+\includegraphics[width=0.8\columnwidth]{images/boxes_winsorized.png}
+\pagebreak \\
+Attribute histograms\\
+\includegraphics[width=0.6\columnwidth]{images/histograms.png}
+\pagebreak \\
+Attribute scatterplots\\
+\includegraphics[width=0.8\columnwidth]{images/scatters.png}
+\pagebreak \\
+Principal components' scatterplots\\
+\includegraphics[width=0.8\columnwidth]{images/scatters_pca.png}
+\pagebreak \\
+LDA space\\
+\includegraphics{images/lda.png}
+\pagebreak \\
+SVM accuracy gamma\\
+\includegraphics{images/gamma.png}
+
+After analyzing the data, we found the following:
+\begin{itemize}
+\item \textasciitilde10\% of rows have a missing value (all but one are missing precisely one value)
+\item Most of the missing data appear in the same few columns.
+\item There are 2 classes with prior probabilities of 2/3 and 1/3.
+\item We counted unique values per column to determine which columns are categorical and which are continuous.
+\item 7 attributes have a majority class frequency of 0.95 or higher. These are likely to be useless.
+\item 4 pairs of attributes have a correlation of 0.90 or higher. These are likely to be redundant.
+\item None of the continuous columns had a significantly low variance.
+\item Several columns had a high percentage (up to 10\%) of outliers.
+\end{itemize}
+	
+\hypertarget{preprocessing-transformers}{%
+\subsection{Preprocessing
+transformers}\label{preprocessing-transformers}}
+
+In light of the findings above, we designed the following transformers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dist }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(datum, data) \{}
+    \CommentTok{\#\textquotesingle{} Calculate the distance from datum to each row in data}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{apply}\NormalTok{(data, }\DecValTok{1}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{sum}\NormalTok{((}\FunctionTok{as.integer}\NormalTok{(datum) }\SpecialCharTok{{-}} \FunctionTok{as.integer}\NormalTok{(x))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))))}
+\NormalTok{\}}
+
+\NormalTok{transform.pca }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\#\textquotesingle{} Transform data using PCA}
+\NormalTok{    pca }\OtherTok{\textless{}{-}} \FunctionTok{prcomp}\NormalTok{(data[,}\SpecialCharTok{{-}}\FunctionTok{ncol}\NormalTok{(data)], }\AttributeTok{center=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{scale=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{    ret }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(pca}\SpecialCharTok{$}\NormalTok{x)}
+\NormalTok{    ret}\SpecialCharTok{$}\NormalTok{Class }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{Class}
+    \FunctionTok{return}\NormalTok{(ret)}
+\NormalTok{\}}
+
+\NormalTok{outliers.winsorize }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{threshold=}\FloatTok{0.05}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Winsorize outliers}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(data)) \{}
+        \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{typeof}\NormalTok{(data[,i]) }\SpecialCharTok{!=} \StringTok{"double"}\NormalTok{) }\ControlFlowTok{next}
+\NormalTok{        quantiles }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(}
+\NormalTok{            data[,i],}
+            \AttributeTok{probs=}\FunctionTok{c}\NormalTok{(threshold, }\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{threshold),}
+            \AttributeTok{na.rm=}\ConstantTok{TRUE}
+\NormalTok{        )}
+\NormalTok{        data[,i] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(data[,i] }\SpecialCharTok{\textless{}}\NormalTok{ quantiles[}\DecValTok{1}\NormalTok{],}
+\NormalTok{            quantiles[}\DecValTok{1}\NormalTok{],}
+            \FunctionTok{ifelse}\NormalTok{(data[,i] }\SpecialCharTok{\textgreater{}}\NormalTok{ quantiles[}\DecValTok{2}\NormalTok{],}
+\NormalTok{                quantiles[}\DecValTok{2}\NormalTok{],}
+\NormalTok{                data[,i]}
+\NormalTok{            )}
+\NormalTok{        )}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{(data)}
+\NormalTok{\}}
+
+\NormalTok{impute.mean }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\#\textquotesingle{} Impute missing values with the mean of the column}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(data)) \{}
+        \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{typeof}\NormalTok{(data[,i]) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"double"}\NormalTok{, }\StringTok{"integer"}\NormalTok{)) \{}
+\NormalTok{            data[,i] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data[,i]),}
+                \FunctionTok{mean}\NormalTok{(data[,i], }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}
+\NormalTok{                data[,i]}
+\NormalTok{            )}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(data))}
+\NormalTok{\}}
+\NormalTok{impute.filter }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\#\textquotesingle{} Remove rows with missing data}
+    \FunctionTok{return}\NormalTok{(data[}\FunctionTok{complete.cases}\NormalTok{(data),])}
+\NormalTok{\}}
+\NormalTok{impute.knn }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{k=}\DecValTok{1}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Impute using k nearest neighbours}
+\NormalTok{    to\_impute }\OtherTok{=}\NormalTok{ data[}\SpecialCharTok{!}\FunctionTok{complete.cases}\NormalTok{(data),]}
+    \ControlFlowTok{for}\NormalTok{ (row }\ControlFlowTok{in} \FunctionTok{rownames}\NormalTok{(to\_impute)) \{}
+\NormalTok{        incomplete\_row }\OtherTok{=} \FunctionTok{colnames}\NormalTok{(data[row,])[}\FunctionTok{apply}\NormalTok{(data[row,], }\DecValTok{2}\NormalTok{, anyNA)]}
+\NormalTok{        incomplete\_filter }\OtherTok{=}\NormalTok{ (}\FunctionTok{names}\NormalTok{(data[row,]) }\SpecialCharTok{\%in\%}\NormalTok{ incomplete\_row) }\CommentTok{\# booleans}
+\NormalTok{        distances }\OtherTok{=} \FunctionTok{dist}\NormalTok{(data[row,}\SpecialCharTok{!}\NormalTok{incomplete\_filter], data[}\FunctionTok{complete.cases}\NormalTok{(data),}\SpecialCharTok{!}\NormalTok{incomplete\_filter])}
+\NormalTok{        k\_nearest }\OtherTok{=}\NormalTok{ data[}\FunctionTok{complete.cases}\NormalTok{(data),][}\FunctionTok{order}\NormalTok{(distances)[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{k],]}
+        
+        \CommentTok{\# replace only na\textquotesingle{}s}
+        \ControlFlowTok{for}\NormalTok{ (col }\ControlFlowTok{in}\NormalTok{ incomplete\_row) \{}
+            \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{typeof}\NormalTok{(data[,col]) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"double"}\NormalTok{, }\StringTok{"integer"}\NormalTok{)) \{}
+\NormalTok{                data[row,col] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data[row,col]),}
+                    \FunctionTok{mean}\NormalTok{(k\_nearest[,col], }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}
+\NormalTok{                    data[row,col]}
+\NormalTok{                )}
+\NormalTok{            \}}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(data))}
+\NormalTok{\}}
+
+\NormalTok{prune.mcf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{cutoff =} \FloatTok{0.95}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Prune features with major class frequency \textgreater{} cutoff}
+\NormalTok{    MCF }\OtherTok{=} \FunctionTok{mcf}\NormalTok{(data)}
+    \FunctionTok{return}\NormalTok{(data[, }\FunctionTok{names}\NormalTok{(MCF[MCF }\SpecialCharTok{\textless{}=}\NormalTok{ cutoff])])}
+\NormalTok{\}}
+\NormalTok{prune.variance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{cutoff =} \FloatTok{0.1}\NormalTok{) \{}
+    \CommentTok{\#\textquotesingle{} Prune features with variance \textless{} cutoff}
+    \FunctionTok{return}\NormalTok{(data[, }\FunctionTok{apply}\NormalTok{(data, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{var}\NormalTok{(x, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\textgreater{}=}\NormalTok{ cutoff])}
+\NormalTok{\}}
+\NormalTok{prune.correlated }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, threshold) \{}
+    \CommentTok{\#\textquotesingle{} Prune features that are highly correlated with each other}
+\NormalTok{    correlations }\OtherTok{=} \FunctionTok{correlation}\NormalTok{(data, threshold)}
+    \FunctionTok{return}\NormalTok{(data[, }\SpecialCharTok{!}\FunctionTok{colnames}\NormalTok{(data) }\SpecialCharTok{\%in\%}\NormalTok{ correlations[,}\DecValTok{1}\NormalTok{]])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{classifiers}{%
+\subsection{Classifiers}\label{classifiers}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{classify.majority.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a majority class classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{names}\NormalTok{(}\FunctionTok{which.max}\NormalTok{(}\FunctionTok{table}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Class))))}
+\NormalTok{\}}
+\NormalTok{classify.majority.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using majority class}
+    \FunctionTok{return}\NormalTok{(classifier)}
+\NormalTok{\}}
+
+\NormalTok{classify.random.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a random classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{())}
+\NormalTok{\}}
+\NormalTok{classify.random.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using random class}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\NormalTok{\}}
+
+\NormalTok{classify.lda.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a linear discriminant analysis classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{lda}\NormalTok{(Class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{data))}
+\NormalTok{\}}
+\NormalTok{classify.lda.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using linear discriminant analysis}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{predict}\NormalTok{(classifier, datum)}\SpecialCharTok{$}\NormalTok{class)}
+\NormalTok{\}}
+
+\NormalTok{classify.bayes.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a naive bayes classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{naive\_bayes}\NormalTok{(Class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{laplace=}\DecValTok{1}\NormalTok{))}
+\NormalTok{\}}
+\NormalTok{classify.bayes.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using naive bayes}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{predict}\NormalTok{(classifier, datum))}
+\NormalTok{\}}
+
+\NormalTok{classify.random\_forest.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a random forest classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{randomForest}\NormalTok{(Class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{data))}
+\NormalTok{\}}
+\NormalTok{classify.random\_forest.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using random forest}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{predict}\NormalTok{(classifier, datum))}
+\NormalTok{\}}
+
+\NormalTok{classify.svm.train }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, params) \{}
+    \CommentTok{\#\textquotesingle{} Train a svm classifier}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{svm}\NormalTok{(Class }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{gamma=}\NormalTok{params}\SpecialCharTok{$}\NormalTok{gamma))}
+\NormalTok{\}}
+\NormalTok{classify.svm.execute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(classifier, datum) \{}
+    \CommentTok{\#\textquotesingle{} Classify using svm}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{predict}\NormalTok{(classifier, datum))}
+\NormalTok{\}}
+
+
+\CommentTok{\# Combine classify.X.train and classify.X.execute into classify.X}
+\CommentTok{\# classify.X(training\_data) returns a function that can be used to classify.}
+\NormalTok{classifiers }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"majority"}\NormalTok{, }\StringTok{"random"}\NormalTok{, }\StringTok{"bayes"}\NormalTok{, }\StringTok{"lda"}\NormalTok{, }\StringTok{"random\_forest"}\NormalTok{, }\StringTok{"svm"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (classifier }\ControlFlowTok{in}\NormalTok{ classifiers) \{}
+\NormalTok{    train }\OtherTok{=} \FunctionTok{match.fun}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"classify."}\NormalTok{, classifier, }\StringTok{".train"}\NormalTok{, }\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{    execute }\OtherTok{=} \FunctionTok{match.fun}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"classify."}\NormalTok{, classifier, }\StringTok{".execute"}\NormalTok{, }\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+
+\NormalTok{    name }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}\StringTok{"classify."}\NormalTok{, classifier, }\AttributeTok{sep=}\StringTok{""}\NormalTok{)}
+
+\NormalTok{    fun }\OtherTok{=} \FunctionTok{local}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(training\_data, parameters) \{}
+\NormalTok{        classifier }\OtherTok{=} \FunctionTok{train}\NormalTok{(training\_data, parameters)}
+\NormalTok{        columns }\OtherTok{=} \FunctionTok{names}\NormalTok{(training\_data)}
+\NormalTok{        columns }\OtherTok{=}\NormalTok{ columns[columns }\SpecialCharTok{!=} \StringTok{"Class"}\NormalTok{]}
+        \FunctionTok{return}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(testing\_datum) \{}
+\NormalTok{            results }\OtherTok{=} \FunctionTok{list}\NormalTok{()}
+            \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{rownames}\NormalTok{(testing\_datum)) \{}
+\NormalTok{                results[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{execute}\NormalTok{(classifier, testing\_datum[i,columns])}
+\NormalTok{            \}}
+            \FunctionTok{return}\NormalTok{(results)}
+\NormalTok{        \})}
+\NormalTok{    \}, }\FunctionTok{list2env}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{train=}\NormalTok{train, }\AttributeTok{execute=}\NormalTok{execute)))}
+    \FunctionTok{assign}\NormalTok{(name, fun)}
+\NormalTok{\}}
+
+\NormalTok{get\_classifier }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(name, }\AttributeTok{parameters=}\FunctionTok{list}\NormalTok{()) \{}
+\NormalTok{    classifier }\OtherTok{=} \FunctionTok{match.fun}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"classify."}\NormalTok{, name, }\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{local}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(training\_data) \{}
+        \FunctionTok{return}\NormalTok{(}\FunctionTok{classifier}\NormalTok{(training\_data, parameters))}
+\NormalTok{    \}, }\FunctionTok{list2env}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{classifier=}\NormalTok{classifier, }\AttributeTok{parameters=}\NormalTok{parameters))))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{cross-validation-and-testing}{%
+\subsection{Cross-validation and
+testing}\label{cross-validation-and-testing}}
+
+We ran k-fold validation on the following metrics:
+\begin{itemize}
+\item Accuracy
+\item Precision
+\item Recall
+\item F1 score
+\item AUC
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{metrics }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, results) \{}
+\NormalTok{    contingency\_table }\OtherTok{=} \FunctionTok{table}\NormalTok{(}\FunctionTok{factor}\NormalTok{(}\FunctionTok{as.integer}\NormalTok{(results), }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)), }\FunctionTok{factor}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Class, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)))}
+    
+\NormalTok{    tp }\OtherTok{=}\NormalTok{ contingency\_table[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\CommentTok{\# true positive}
+\NormalTok{    fp }\OtherTok{=}\NormalTok{ contingency\_table[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{] }\CommentTok{\# false positive}
+\NormalTok{    fn }\OtherTok{=}\NormalTok{ contingency\_table[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\CommentTok{\# false negative}
+\NormalTok{    tn }\OtherTok{=}\NormalTok{ contingency\_table[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{] }\CommentTok{\# true negative}
+\NormalTok{    p }\OtherTok{=}\NormalTok{ tp }\SpecialCharTok{+}\NormalTok{ fn }\CommentTok{\# positive}
+\NormalTok{    n }\OtherTok{=}\NormalTok{ tn }\SpecialCharTok{+}\NormalTok{ fp }\CommentTok{\# negative}
+\NormalTok{    pp }\OtherTok{=}\NormalTok{ tp }\SpecialCharTok{+}\NormalTok{ fp }\CommentTok{\# predicted positive}
+\NormalTok{    pn }\OtherTok{=}\NormalTok{ tn }\SpecialCharTok{+}\NormalTok{ fn }\CommentTok{\# predicted negative}
+
+\NormalTok{    shita }\OtherTok{=} \FunctionTok{as.vector}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Class, }\AttributeTok{mode=}\StringTok{"numeric"}\NormalTok{)}
+\NormalTok{    shitb }\OtherTok{=} \FunctionTok{as.vector}\NormalTok{(results, }\AttributeTok{mode=}\StringTok{"numeric"}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+        \StringTok{"Accuracy"}\OtherTok{=}\NormalTok{((tp}\SpecialCharTok{+}\NormalTok{tn)}\SpecialCharTok{/}\NormalTok{(tp}\SpecialCharTok{+}\NormalTok{tn}\SpecialCharTok{+}\NormalTok{fp}\SpecialCharTok{+}\NormalTok{fn)),}
+        \StringTok{"F1"}\OtherTok{=}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{tp}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{tp }\SpecialCharTok{+}\NormalTok{ fp }\SpecialCharTok{+}\NormalTok{ fn)),}
+        \StringTok{"Precision"}\OtherTok{=}\NormalTok{(tp}\SpecialCharTok{/}\NormalTok{pp),}
+        \StringTok{"Recall"}\OtherTok{=}\NormalTok{(tp}\SpecialCharTok{/}\NormalTok{p),}
+        \StringTok{"AUC"}\OtherTok{=}\NormalTok{(}\FunctionTok{roc}\NormalTok{(shita, shitb, }\AttributeTok{quiet=}\ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{auc)}
+\NormalTok{    ))}
+\NormalTok{\}}
+
+\NormalTok{k\_fold\_validate }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, k, classifier) \{}
+    \CommentTok{\#\textquotesingle{} Perform k{-}fold cross validation on a dataset}
+\NormalTok{    data }\OtherTok{=}\NormalTok{ data[}\FunctionTok{sample}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(data)),]}
+\NormalTok{    fold\_size }\OtherTok{=} \FunctionTok{round}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(data) }\SpecialCharTok{/}\NormalTok{ k)}
+\NormalTok{    fold\_indices }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(data), fold\_size)}
+\NormalTok{    fold\_indices }\OtherTok{=} \FunctionTok{c}\NormalTok{(fold\_indices, }\FunctionTok{nrow}\NormalTok{(data)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
+\NormalTok{    fold\_accuracies }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{c}\NormalTok{(k, }\DecValTok{5}\NormalTok{))}
+    \ControlFlowTok{for}\NormalTok{ (fold }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{k) \{}
+\NormalTok{        test\_indices }\OtherTok{=} \FunctionTok{seq}\NormalTok{(fold\_indices[fold], fold\_indices[fold}\SpecialCharTok{+}\DecValTok{1}\NormalTok{]}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{        fold\_data }\OtherTok{=}\NormalTok{ data[}\SpecialCharTok{{-}}\NormalTok{test\_indices,]}
+\NormalTok{        fold\_test }\OtherTok{=}\NormalTok{ data[test\_indices,]}
+\NormalTok{        fold\_classifier }\OtherTok{=} \FunctionTok{classifier}\NormalTok{(fold\_data)}
+\NormalTok{        fold\_accuracies[fold,] }\OtherTok{=} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{metrics}\NormalTok{(fold\_test, }\FunctionTok{fold\_classifier}\NormalTok{(fold\_test)))}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{(fold\_accuracies)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{Class }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{Class)}
+\NormalTok{testing\_data}\SpecialCharTok{$}\NormalTok{Class }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(testing\_data}\SpecialCharTok{$}\NormalTok{Class)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{preprossesses }\OtherTok{=} \FunctionTok{list}\NormalTok{(}
+    \StringTok{"LDA"}\OtherTok{=}\ControlFlowTok{function}\NormalTok{(data) \{}
+\NormalTok{        preprossess }\OtherTok{=} \FunctionTok{compose}\NormalTok{(impute.knn, prune.variance)}
+
+\NormalTok{        datalda }\OtherTok{=} \FunctionTok{preprossess}\NormalTok{(data)}
+\NormalTok{        lda\_classifier }\OtherTok{=} \FunctionTok{classify.lda.train}\NormalTok{(datalda)}
+\NormalTok{        data[,}\FunctionTok{ncol}\NormalTok{(data) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{] }\OtherTok{=} \FunctionTok{predict}\NormalTok{(lda\_classifier, datalda)}\SpecialCharTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}
+\NormalTok{        testing\_data[,}\FunctionTok{ncol}\NormalTok{(testing\_data) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{] }\OtherTok{=} \FunctionTok{predict}\NormalTok{(lda\_classifier, testing\_data)}\SpecialCharTok{$}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}
+
+        \FunctionTok{return}\NormalTok{(}\FunctionTok{preprossess}\NormalTok{(data))}
+\NormalTok{    \},}
+    \StringTok{"PCA"}\OtherTok{=}\ControlFlowTok{function}\NormalTok{(data) \{}
+\NormalTok{        preprossess }\OtherTok{=} \FunctionTok{compose}\NormalTok{(impute.knn, prune.variance)}
+\NormalTok{        data[,(}\FunctionTok{ncol}\NormalTok{(data) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(data) }\SpecialCharTok{+} \DecValTok{3}\NormalTok{)] }\OtherTok{=} \FunctionTok{transform.pca}\NormalTok{(}\FunctionTok{preprossess}\NormalTok{(data))}\SpecialCharTok{$}\NormalTok{x[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
+        \FunctionTok{return}\NormalTok{(}\FunctionTok{preprossess}\NormalTok{(data))}
+\NormalTok{    \},}
+    \StringTok{"knn+var"}\OtherTok{=}\FunctionTok{compose}\NormalTok{(impute.knn, prune.variance),}
+    \StringTok{"prep1"}\OtherTok{=}\FunctionTok{compose}\NormalTok{(outliers.winsorize, prune.mcf, prune.variance, impute.knn),}
+    \StringTok{"prep2"}\OtherTok{=}\FunctionTok{compose}\NormalTok{(impute.knn, outliers.winsorize, prune.mcf, prune.variance),}
+    \StringTok{"prep3"}\OtherTok{=}\FunctionTok{compose}\NormalTok{(impute.knn, prune.mcf, prune.variance, outliers.winsorize),}
+    \StringTok{"prep4"}\OtherTok{=}\FunctionTok{compose}\NormalTok{(impute.knn, prune.variance, outliers.winsorize)}
+\NormalTok{)}
+
+\NormalTok{clacifiers }\OtherTok{=} \FunctionTok{list}\NormalTok{(}
+    \StringTok{"majority"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"majority"}\NormalTok{),}
+    \StringTok{"random"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"random"}\NormalTok{),}
+    \StringTok{"bayes"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"bayes"}\NormalTok{),}
+    \StringTok{"lda"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"lda"}\NormalTok{),}
+    \StringTok{"random\_forest"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"random\_forest"}\NormalTok{),}
+    \StringTok{"svm"}\OtherTok{=}\FunctionTok{get\_classifier}\NormalTok{(}\StringTok{"svm"}\NormalTok{, }\FunctionTok{list}\NormalTok{(}\AttributeTok{gamma=}\FloatTok{0.1}\NormalTok{))}
+\NormalTok{)}
+
+\NormalTok{results }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{, }
+    \FunctionTok{c}\NormalTok{(}\FunctionTok{length}\NormalTok{(clacifiers),}\FunctionTok{length}\NormalTok{(preprossesses), }\DecValTok{5}\NormalTok{),}
+    \AttributeTok{dimnames=}\FunctionTok{list}\NormalTok{(}
+        \FunctionTok{names}\NormalTok{(clacifiers),}
+        \FunctionTok{names}\NormalTok{(preprossesses),}
+        \FunctionTok{c}\NormalTok{(}\StringTok{"Accuracy"}\NormalTok{,}\StringTok{"F1"}\NormalTok{,}\StringTok{"Precision"}\NormalTok{,}\StringTok{"Recall"}\NormalTok{,}\StringTok{"AUC"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{)}
+
+\NormalTok{i}\OtherTok{=}\DecValTok{1}
+\ControlFlowTok{for}\NormalTok{ (classifier }\ControlFlowTok{in}\NormalTok{ clacifiers) \{}
+\NormalTok{    j}\OtherTok{=}\DecValTok{1}
+    \ControlFlowTok{for}\NormalTok{ (preprossess }\ControlFlowTok{in}\NormalTok{ preprossesses) \{}
+        \FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\FunctionTok{names}\NormalTok{(clacifiers)[i], }\FunctionTok{names}\NormalTok{(preprossesses)[j], }\AttributeTok{sep=}\StringTok{" / "}\NormalTok{))}
+\NormalTok{        results[i,j,] }\OtherTok{=} \FunctionTok{colMeans}\NormalTok{(}\FunctionTok{k\_fold\_validate}\NormalTok{(}\FunctionTok{preprossess}\NormalTok{(df), }\DecValTok{5}\NormalTok{, classifier))}
+\NormalTok{        j }\OtherTok{=}\NormalTok{ j }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{    i }\OtherTok{=}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+\FunctionTok{print}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, , Accuracy
+
+                    LDA       PCA   knn+var     prep1     prep2     prep3     prep4
+majority      0.6662722 0.6674556 0.6662722 0.6662722 0.6662722 0.6662722 0.6662722
+random        0.5183432 0.5053254 0.5017751 0.4887574 0.4710059 0.5147929 0.5183432
+bayes         0.7526627 0.7455621 0.7396450 0.7360947 0.7408284 0.7420118 0.7502959
+lda           0.8556213 0.8556213 0.8662722 0.8532544 0.8532544 0.8615385 0.8556213
+random_forest 0.8792899 0.8769231 0.8745562 0.8686391 0.8733728 0.8733728 0.8804734
+svm           0.8816568 0.8792899 0.8852071 0.8721893 0.8792899 0.8792899 0.8662722
+
+, , F1
+
+                    LDA       PCA   knn+var     prep1     prep2     prep3     prep4
+majority      0.7995775 0.8002009 0.7993917 0.7995438 0.7992534 0.7996404 0.7996574
+random        0.5938008 0.5788811 0.5723456 0.5539403 0.5447596 0.5867403 0.5879583
+bayes         0.7852539 0.7752716 0.7710351 0.7674772 0.7722090 0.7746837 0.7822387
+lda           0.8935090 0.8929773 0.9011534 0.8908631 0.8913139 0.8967991 0.8926158
+random_forest 0.9109033 0.9086232 0.9074074 0.9035810 0.9071326 0.9057051 0.9118149
+svm           0.9141361 0.9126602 0.9168114 0.9072357 0.9122279 0.9123226 0.9028204
+
+, , Precision
+
+                    LDA       PCA   knn+var     prep1     prep2     prep3     prep4
+majority      0.6662722 0.6674556 0.6662722 0.6662722 0.6662722 0.6662722 0.6662722
+random        0.6792740 0.6667601 0.6649574 0.6613434 0.6375190 0.6808722 0.6846878
+bayes         0.9333294 0.9341836 0.9274315 0.9317007 0.9327365 0.9249671 0.9285232
+lda           0.8764114 0.8838444 0.8832680 0.8821365 0.8838687 0.8868206 0.8838979
+random_forest 0.8908420 0.8907236 0.8904661 0.8832091 0.8896705 0.8914590 0.8963595
+svm           0.8886048 0.8833421 0.8890476 0.8799291 0.8795615 0.8806433 0.8736328
+
+, , Recall
+
+                    LDA       PCA   knn+var     prep1     prep2     prep3     prep4
+majority      1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+random        0.5287772 0.5124994 0.5035652 0.4773145 0.4763796 0.5168643 0.5171131
+bayes         0.6782743 0.6638535 0.6605020 0.6534251 0.6592458 0.6674902 0.6761123
+lda           0.9116336 0.9050837 0.9202519 0.9001445 0.8991870 0.9073656 0.9023994
+random_forest 0.9323053 0.9276150 0.9255639 0.9252566 0.9262283 0.9212216 0.9288681
+svm           0.9417164 0.9451932 0.9469596 0.9383180 0.9479875 0.9464702 0.9347249
+
+, , AUC
+
+                    LDA       PCA   knn+var     prep1     prep2     prep3     prep4
+majority      0.5000000 0.5000000 0.5000000 0.5000000 0.5000000 0.5000000 0.5000000
+random        0.5300538 0.5310166 0.5503669 0.5400970 0.5357013 0.5468420 0.5166997
+bayes         0.7898685 0.7867730 0.7784342 0.7773750 0.7803360 0.7771968 0.7866831
+lda           0.8278887 0.8350527 0.8396338 0.8279863 0.8287297 0.8397150 0.8324609
+random_forest 0.8527645 0.8488336 0.8493560 0.8407737 0.8478734 0.8485350 0.8561589
+svm           0.8503806 0.8466836 0.8535373 0.8406499 0.8461658 0.8452618 0.8318942
+\end{verbatim}
+
+The best classifier (according to the accuracy metric) turned out to be
+the random forest classifier with the 4th preprossessing preset
+(impute.knn $\leftarrow$ prune.variance $\leftarrow$ outliers.winsorize). We
+ran these settings on the test dataset to evaluate our true success.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{classifier }\OtherTok{=} \FunctionTok{classify.random\_forest}\NormalTok{(preprossesses[[}\StringTok{"prep4"}\NormalTok{]](df))}
+\NormalTok{results }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{ (row }\ControlFlowTok{in} \FunctionTok{rownames}\NormalTok{(testing\_data)) \{}
+\NormalTok{    test }\OtherTok{=}\NormalTok{ testing\_data[row, }\FunctionTok{names}\NormalTok{(testing\_data) }\SpecialCharTok{!=} \StringTok{"Class"}\NormalTok{]}
+\NormalTok{    results }\OtherTok{=} \FunctionTok{c}\NormalTok{(results, }\FunctionTok{tryCatch}\NormalTok{(}\FunctionTok{as.integer}\NormalTok{(}\FunctionTok{classifier}\NormalTok{(test)), }\AttributeTok{error=}\ControlFlowTok{function}\NormalTok{(e) }\StringTok{"error"}\NormalTok{))}
+\NormalTok{\}}
+\NormalTok{contingency\_table }\OtherTok{=} \FunctionTok{table}\NormalTok{(results, testing\_data}\SpecialCharTok{$}\NormalTok{Class)}
+
+\FunctionTok{print}\NormalTok{(contingency\_table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+## results   1   2
+##       1 122  21
+##       2  13  53
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(contingency\_table))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(contingency\_table))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8373206
+\end{verbatim}
+
+The final achieved accuracy is 84\%.
+
+\end{document}
