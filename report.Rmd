@@ -8,6 +8,15 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(PerformanceAnalytics)
+library(arules)
+library(purrr)
+library(pryr)
+library(pROC)
+library(MASS)
+library(naivebayes)
+library(randomForest)
+library(e1071)
 ```
 
 ## Exploration
@@ -151,11 +160,12 @@ save_scatterplots <- function(data, width=10000, height=10000, filename="scatter
     )
 }
 
-#save_boxplots(df, filename="images/boxes")
-#save_boxplots(outliers.winsorize(df), filename="images/boxes_winsorized")
-#save_barplots(outliers.winsorize(df), filename="images/histograms")
-#save_scatterplots(df, filename="images/scatters")
-#save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
+# TODO: uncomment
+# save_boxplots(df, filename="images/boxes")
+# save_boxplots(outliers.winsorize(df), filename="images/boxes_winsorized")
+# save_barplots(outliers.winsorize(df), filename="images/histograms")
+# save_scatterplots(df, filename="images/scatters")
+# save_scatterplots(transform.pca(impute.mean(df)), filename="images/scatters_pca")
 ```
 
 The following plots were generated from the data (blue = continuous, red = categorical):
@@ -271,11 +281,7 @@ prune.correlated <- function(data, threshold) {
 ## Classifiers
 
 ```{r}
-library(MASS)
-library(naivebayes)
-library(randomForest)
-
-classify.majority.train <- function(data) {
+classify.majority.train <- function(data, params) {
     #' Train a majority class classifier
     return(names(which.max(table(data$Class))))
 }
@@ -284,7 +290,7 @@ classify.majority.execute <- function(classifier, datum) {
     return(classifier)
 }
 
-classify.random.train <- function(data) {
+classify.random.train <- function(data, params) {
     #' Train a random classifier
     return(c())
 }
@@ -293,7 +299,7 @@ classify.random.execute <- function(classifier, datum) {
     return(sample(2, 1))
 }
 
-classify.lda.train <- function(data) {
+classify.lda.train <- function(data, params) {
     #' Train a linear discriminant analysis classifier
     return(lda(Class ~ ., data=data))
 }
@@ -302,14 +308,8 @@ classify.lda.execute <- function(classifier, datum) {
     return(predict(classifier, datum)$class)
 }
 
-classify.bayes.train <- function(data) {
+classify.bayes.train <- function(data, params) {
     #' Train a naive bayes classifier
-    # # first convert all integer columns to factors
-    # for (i in 1:ncol(data)) {
-    #     if (typeof(data[,i]) == "integer") {
-    #         data[,i] = as.factor(data[,i])
-    #     }
-    # }
     return(naive_bayes(Class ~ ., data=data, laplace=1))
 }
 classify.bayes.execute <- function(classifier, datum) {
@@ -317,7 +317,7 @@ classify.bayes.execute <- function(classifier, datum) {
     return(predict(classifier, datum))
 }
 
-classify.random_forest.train <- function(data) {
+classify.random_forest.train <- function(data, params) {
     #' Train a random forest classifier
     return(randomForest(Class ~ ., data=data))
 }
@@ -326,72 +326,173 @@ classify.random_forest.execute <- function(classifier, datum) {
     return(predict(classifier, datum))
 }
 
+classify.svm.train <- function(data, params) {
+    #' Train a svm classifier
+    return(svm(Class ~ ., data=data, gamma=params$gamma))
+}
+classify.svm.execute <- function(classifier, datum) {
+    #' Classify using svm
+    return(predict(classifier, datum))
+}
+
 
 # Combine classify.X.train and classify.X.execute into classify.X
 # classify.X(training_data) returns a function that can be used to classify.
-classifiers = c("majority", "random", "bayes", "lda", "random_forest")
+classifiers = c("majority", "random", "bayes", "lda", "random_forest", "svm")
 for (classifier in classifiers) {
 	train = match.fun(paste("classify.", classifier, ".train", sep=""))
 	execute = match.fun(paste("classify.", classifier, ".execute", sep=""))
 
 	name = paste("classify.", classifier, sep="")
 
-	fun = local(function(training_data) {
-		classifier = train(training_data)
+	fun = local(function(training_data, parameters) {
+		classifier = train(training_data, parameters)
         columns = names(training_data)
         columns = columns[columns != "Class"]
-		    return(function(testing_datum) {
-          results = list()
-          for (i in rownames(testing_datum)) {
-              results[[i]] <- execute(classifier, testing_datum[i,columns])
-          }
-          return(results)
-        })
+		return(function(testing_datum) {
+            results = list()
+            for (i in rownames(testing_datum)) {
+                results[[i]] <- execute(classifier, testing_datum[i,columns])
+            }
+			return(results)
+		})
 	}, list2env(list(train=train, execute=execute)))
 	assign(name, fun)
+}
+
+get_classifier = function(name, parameters=list()) {
+    classifier = match.fun(paste("classify.", name, sep=""))
+    return(local(function(training_data) {
+        return(classifier(training_data, parameters))
+    }, list2env(list(classifier=classifier, parameters=parameters))))
 }
 ```
 
 ## Cross-validation and testing
 
-```{r}
-library(pryr)
+We ran k-fold validation on the following metrics:  
+* Accuracy  
+* Precision  
+* Recall  
+* F1 score  
+* AUC  
 
-df$Class = as.factor(df$Class)
-testing_data$Class = as.factor(testing_data$Class)
-preprocess = compose(outliers.winsorize, prune.mcf, prune.variance, impute.filter)
-```
 ```{r}
+metrics <- function(data, results) {
+    contingency_table = table(factor(as.integer(results), c(1, 2)), factor(data$Class, c(1, 2)))
+    
+    tp = contingency_table[1,1] # true positive
+    fp = contingency_table[1,2] # false positive
+    fn = contingency_table[2,1] # false negative
+    tn = contingency_table[2,2] # true negative
+    p = tp + fn # positive
+    n = tn + fp # negative
+    pp = tp + fp # predicted positive
+    pn = tn + fn # predicted negative
+
+    shita = as.vector(data$Class, mode="numeric")
+    shitb = as.vector(results, mode="numeric")
+    return(list(
+        "Accuracy"=((tp+tn)/(tp+tn+fp+fn)),
+        "F1"=(2*tp/(2*tp + fp + fn)),
+        "Precision"=(tp/pp),
+        "Recall"=(tp/p),
+        "AUC"=(roc(shita, shitb, quiet=TRUE)$auc)
+    ))
+}
+
 k_fold_validate <- function(data, k, classifier) {
     #' Perform k-fold cross validation on a dataset
+    data = data[sample(nrow(data)),]
     fold_size = round(nrow(data) / k)
     fold_indices = seq(1, nrow(data), fold_size)
     fold_indices = c(fold_indices, nrow(data)+1)
-    fold_accuracies = rep(1, k)
+    fold_accuracies = array(0, c(k, 5))
     for (fold in 1:k) {
         test_indices = seq(fold_indices[fold], fold_indices[fold+1]-1)
         fold_data = data[-test_indices,]
         fold_test = data[test_indices,]
         fold_classifier = classifier(fold_data)
-        classified = fold_classifier(fold_test)
-        correct = as.integer(classified) == fold_test$Class
-        fold_accuracies[fold] = sum(correct) / nrow(fold_test)
+        fold_accuracies[fold,] = as.numeric(metrics(fold_test, fold_classifier(fold_test)))
     }
     return(fold_accuracies)
 }
-k_fold = k_fold_validate(preprocess(df), 5, classify.random_forest)
-k_fold
-mean(k_fold)
 ```
 
 ```{r}
-classifier = classify.random_forest(preprocess(df))
+df$Class = as.factor(df$Class)
+testing_data$Class = as.factor(testing_data$Class)
+```
+
+
+```{r}
+preprossesses = list(
+    "LDA"=function(data) {
+        preprossess = compose(impute.knn, prune.variance)
+
+        datalda = preprossess(data)
+        lda_classifier = classify.lda.train(datalda)
+        data[,ncol(data) + 1] = predict(lda_classifier, datalda)$x[,1]
+        testing_data[,ncol(testing_data) + 1] = predict(lda_classifier, testing_data)$x[,1]
+
+        return(preprossess(data))
+    },
+    "PCA"=function(data) {
+        preprossess = compose(impute.knn, prune.variance)
+        data[,(ncol(data) + 1):(ncol(data) + 3)] = transform.pca(preprossess(data))$x[,1:3]
+        return(preprossess(data))
+    },
+    "knn+var"=compose(impute.knn, prune.variance),
+    "prep1"=compose(outliers.winsorize, prune.mcf, prune.variance, impute.knn),
+    "prep2"=compose(impute.knn, outliers.winsorize, prune.mcf, prune.variance),
+    "prep3"=compose(impute.knn, prune.mcf, prune.variance, outliers.winsorize),
+    "prep4"=compose(impute.knn, prune.variance, outliers.winsorize)
+)
+
+clacifiers = list(
+    "majority"=get_classifier("majority"),
+    "random"=get_classifier("random"),
+    "bayes"=get_classifier("bayes"),
+    "lda"=get_classifier("lda"),
+    "random_forest"=get_classifier("random_forest"),
+    "svm"=get_classifier("svm", list(gamma=0.1))
+)
+
+results = array(0, 
+    c(length(clacifiers),length(preprossesses), 5),
+    dimnames=list(
+        names(clacifiers),
+        names(preprossesses),
+        c("Accuracy","F1","Precision","Recall","AUC")
+    )
+)
+
+i=1
+for (classifier in clacifiers) {
+    j=1
+    for (preprossess in preprossesses) {
+        print(paste(names(clacifiers)[i], names(preprossesses)[j], sep=" / "))
+        results[i,j,] = colMeans(k_fold_validate(preprossess(df), 5, classifier))
+        j = j + 1
+    }
+    i = i + 1
+}
+
+print(results)
+```
+
+The best classifier (according to the accuracy metric) turned out to be the random forest classifier with the 4th preprossessing preset (impute.knn <- prune.variance <- outliers.winsorize).
+We ran these settings on the test dataset to evaluate our true success.
+```{r}
+classifier = classify.random_forest(preprossesses[["prep4"]](df))
 results = c()
 for (row in rownames(testing_data)) {
     test = testing_data[row, names(testing_data) != "Class"]
     results = c(results, tryCatch(as.integer(classifier(test)), error=function(e) "error"))
 }
 contingency_table = table(results, testing_data$Class)
+
 print(contingency_table)
+
 print(sum(diag(contingency_table))/sum(contingency_table))
 ```

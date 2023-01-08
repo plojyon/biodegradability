@@ -10,7 +10,7 @@ source("classifiers.r")
 
 options(width=120)
 
-if("print" %in% ls()){
+if ("print" %in% ls()) {
     rm(print)
 }
 pprint <- function(...){ print(paste(...)) }
@@ -31,11 +31,11 @@ metrics <- function(data, results) {
     shita = as.vector(data$Class, mode="numeric")
     shitb = as.vector(results, mode="numeric")
     return(list(
-        Accuracy=((tp+tn)/(tp+tn+fp+fn)),
-        F1=(2*tp/(2*tp + fp + fn)),
-        Precision=(tp/pp),
-        Recall=(tp/p),
-        AUC=(roc(shita, shitb, quiet=TRUE)$auc)
+        "Accuracy"=((tp+tn)/(tp+tn+fp+fn)),
+        "F1"=(2*tp/(2*tp + fp + fn)),
+        "Precision"=(tp/pp),
+        "Recall"=(tp/p),
+        "AUC"=(roc(shita, shitb, quiet=TRUE)$auc)
     ))
 }
 
@@ -60,7 +60,6 @@ k_fold_validate <- function(data, k, classifier) {
     }
     return(fold_accuracies)
 }
-
 
 df <- read.csv("train.csv")
 testing_data <- read.csv("test.csv")
@@ -100,7 +99,6 @@ clacifiers = list(
 )
 
 
-
 # result matrix with names columns
 results = array(0, 
     c(length(clacifiers),length(preprossesses), 5),
@@ -110,7 +108,6 @@ results = array(0,
         c("Accuracy","F1","Precision","Recall","AUC")
     )
 )
-
 
 i=1
 for (classifier in clacifiers) {
